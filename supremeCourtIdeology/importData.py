@@ -2,82 +2,117 @@
 Mayank Agrawal (timshell)
 Imports all SC cases from csv file
 """
+import csv
+justicesCSV = 'justices20102014.csv'
 
 justicesDict = {
-		105: 'Scalia',
-		106: 'Kennedy',
-		108: 'Thomas',
-		109: 'Ginsburg',
-		110: 'Breyer',
-		111: 'Roberts',
-		112: 'Alito',
-		113: 'Sotomayor',
-		114: 'Kagan'
-		}
+	105: 'Scalia',
+	106: 'Kennedy',
+	108: 'Thomas',
+	109: 'Ginsburg',
+	110: 'Breyer',
+	111: 'Roberts',
+	112: 'Alito',
+	113: 'Sotomayor',
+	114: 'Kagan'
+}
 
 class Case(object):
-    def __init__(self, caseID, majorityNum, minorityNum, caseName):
-        self.caseID = caseID
-        self.majorityNum = majorityNum
+
+	def __init__(self, caseID, majorityNum, minorityNum, caseName, justicesDict):
+
+		self.caseID = caseID
+		self.majorityNum = majorityNum
 		self.minorityNum = minorityNum
 		self.majorityArray = []
 		self.minorityArray = []
-		self.caseName = caseName    	
+		self.caseName = caseName
+		self.justicesDict = justicesDict    	
 
-    def addVote(self, justiceID, vote):
+	def addVote(self, justiceID, vote):
 		if vote == 2:
 		    self.minorityArray.append(justiceID)
-	        else:
+		else:
 		    self.majorityArray.append(justiceID)
 
-    def getMajorityNum(self):
+	def getMajorityNum(self):
 		return self.majorityNum
 
-    def getMinorityNum(self):
+	def getMinorityNum(self):
 		return self.minorityNum
 
-    def getMajorityArray(self):
+	def getMajorityArray(self):
 		return self.majorityArray
 
-    def getMinorityArray(self):
-		return self.minorityArray     
+	def getMinorityArray(self):
+		return self.minorityArray  
 
-    def __str__(self):
-		print
-		print 'Case: %s' (self.caseName)
-		print
-		print 'Majority: \n'
+	def getCaseName(self):
+		return self.caseName   
+
+	def __str__(self):
+
+		stringToReturn = '\nCase: ' + self.caseName + '\n\n' + 'Majority: \n'
+
 		for justiceID in self.majorityArray:
-		    print ' - %s \n' (justicesDict(justiceID))
-		print 'Minority: \n'
+			justiceName = self.justicesDict[justiceID]
+			stringToReturn +=  ' - ' + justiceName + '\n'
+		
+		stringToReturn += ' \nMinority: \n'
 		for justiceID in self.minorityArray:
-	            print ' - %s \n' (justicesDict(justiceID))
+			justiceName = self.justicesDict[justiceID]
+			stringToReturn +=  ' - ' + justiceName + '\n'
+
+		return stringToReturn
 
 
-casesToImport = open('SCDB_2014_01_justiceCentered_Citation.csv', 'r')
-allCases = []
-currentCaseID = ''
-casesToImport.readline() #gets rid of headers
-currentCase = None
-currentLine = casesToImport.readline()
-while currentLine != '':
+def loadData():
 
-    line = casesToImport.strip()
-    line = line.split(',')
-    """
-    Indices:
- 	 0: CaseID
-	-1: Vote
-	-2: Justice Name
-	-3: Justice ID
-	-4: Minority Votes
-	-5: Majority Votes
-	(1:-5): CaseName
-    """
-    if line[0] != currentCaseID:
-	currentCase = allCases.append(Case(line[0], line[-5], line[-4], line[1:-5].join(',')))
-	
-    currentCase.addVote(line[-3],int(line[-1])
-    currentLine = casesToImport.readline()
+	with open(justicesCSV) as csvfile:
+		
+		casesToImport = csv.DictReader(csvfile)
+		currentCaseID = ''
+		currentCase = None
+		allCases = []
 
-	
+		for row in casesToImport:
+			caseID = row['caseID']
+			
+			justiceID = int(row['justiceID'])
+			
+			if caseID != currentCaseID:
+				currentCaseID = caseID
+				caseName = row['caseName']
+				majVotes = int(row['majVotes'])
+				minVotes = int(row['minVotes'])
+				currentCase = Case(caseID, majVotes, minVotes, caseName, justicesDict)
+				allCases.append(currentCase)
+
+			if row['vote'] != '':
+
+				vote = int(row['vote'])
+				currentCase.addVote(justiceID,vote)
+
+	#verifyData(allCases)
+
+	return allCases
+
+def verifyData(lstOfCases):
+	for case in lstOfCases:
+		if (len(case.getMinorityArray()) != case.getMinorityNum()) or (len(case.getMajorityArray()) != case.getMajorityNum()):
+			print case
+
+
+loadData()
+
+
+
+
+
+
+
+
+
+
+
+
