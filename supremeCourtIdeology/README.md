@@ -11,4 +11,6 @@ What to Do:
 	3. For 5-4 splits, was the 5 a bloc?
 	4. For 4-4 splits (both of which Kagan recused herself), did they fall under bloc lines?
 	5. What exactly can we claim about 'ideologicial loyalty' about SCOTUS Justices?
+	6. Was the majority on the 'liberal' or 'conservative' view? Did there seem to be any difference for unanimous decisions vs. close decisions?
 - Future: Develop model to show progression of ideological stance (check Wikipedia article for previous research)
+- Future: Can you use transcripts to predict judges vote?
