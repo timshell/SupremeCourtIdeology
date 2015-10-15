@@ -2,6 +2,8 @@
 
 Data courtesy of Harold J. Spaeth, Sara C. Benesh, Lee Epstein, Andrew D. Martin, Jeffrey A. Segal, and Theodore J. Ruger. 2014. Supreme Court Database, Version 2014 Release 01. URL: http://supremecourtdatabase.org. Last accessed: July 8, 2015. 
 
+Notes: The two 4-4 cases were excluded from the dataset.
+
 What to Do:
 - Edit CSV to show only data I need
 - Load data into Case class
@@ -15,3 +17,5 @@ What to Do:
 	7. Use Noll-Scully method to compare ideal vs. actual (liberal vs. conservative)
 - Future: Develop model to show progression of ideological stance (check Wikipedia article for previous research)
 - Future: Can you use transcripts to predict judges vote?
+
+
