@@ -10,6 +10,7 @@ Imports all SC cases from csv file
 10/14/15 MA fixed loading in Data
 			created string and get functions for
 			Justice class
+testing git commits via subl
 """
 import csv
 justicesCSV = 'justices20102014.csv'
